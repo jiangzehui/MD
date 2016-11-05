@@ -14,9 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.jiangzehui.mds.Adapter.RecyclerViewAdapter;
@@ -42,9 +39,6 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
     View footView;
     TextView tv;
     ProgressBar pb;
-    List<HttpService.Result.ResultBean.DataBean> list1;
-    List<HttpService.Result.ResultBean.DataBean> list2;
-    List<HttpService.Result.ResultBean.DataBean> list_total;
 
 
     public static News_Fragment newInstance(String type) {
@@ -105,24 +99,14 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
             fresh.setRefreshing(false);
         }
         if (result.getError_code() == 0) {
-            list1 = new ArrayList<>();
-            list2 = new ArrayList<>();
-            list_total = new ArrayList<>();
 
-            for (int i = 0; i < result.getResult().getData().size(); i++) {
-                list_total.add(result.getResult().getData().get(i));
-                if (i < 10) {
-                    list1.add(result.getResult().getData().get(i));
-                } else {
-                    list2.add(result.getResult().getData().get(i));
-                }
-            }
+
             if (adapter == null) {
-                footView = LayoutInflater.from(getActivity()).inflate(R.layout.luntan_list_item_more, null);
+                footView = LayoutInflater.from(getActivity()).inflate(R.layout.item_footview, null);
                 footView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 tv = (TextView) footView.findViewById(R.id.tv);
                 pb = (ProgressBar) footView.findViewById(R.id.pb);
-                adapter = new RecyclerViewAdapter(getActivity(), list1, footView);
+                adapter = new RecyclerViewAdapter(getActivity(), result.getResult().getData(), footView);
                 adapter.setOnItemClickLitener(new RecyclerViewAdapter.OnItemClickLitener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -132,50 +116,50 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 if (rv != null) {
                     rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                    if (rv.getLayoutManager() instanceof LinearLayoutManager) {
-                        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) rv.getLayoutManager();
-                        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                            @Override
-                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                                super.onScrolled(recyclerView, dx, dy);
-                                int totalItemCount = linearLayoutManager.getItemCount();
-                                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                                if (lastVisibleItem > 0 && lastVisibleItem == totalItemCount - 1) {
-                                    if(adapter.getListSize()>=list_total.size()){
-                                        showText();
-                                        return;
-                                    }
-                                    showProgress();
-                                    new Thread() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                Thread.sleep(2000);
-                                                getActivity().runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        adapter.addList(list2);
-                                                        showText();
-                                                    }
-                                                });
-
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }.start();
-                                }
-
-                            }
-                        });
-                    }
+//                    if (rv.getLayoutManager() instanceof LinearLayoutManager) {
+//                        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) rv.getLayoutManager();
+//                        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                            @Override
+//                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                                super.onScrolled(recyclerView, dx, dy);
+//                                int totalItemCount = linearLayoutManager.getItemCount();
+//                                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+//                                if (lastVisibleItem > 0 && lastVisibleItem == totalItemCount - 1) {
+//                                    if(adapter.getListSize()>=list_total.size()){
+//                                        showText();
+//                                        return;
+//                                    }
+//                                    showProgress();
+//                                    new Thread() {
+//                                        @Override
+//                                        public void run() {
+//                                            try {
+//                                                Thread.sleep(2000);
+//                                                getActivity().runOnUiThread(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//                                                        adapter.addList(list2);
+//                                                        showText();
+//                                                    }
+//                                                });
+//
+//                                            } catch (InterruptedException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                        }
+//                                    }.start();
+//                                }
+//
+//                            }
+//                        });
+//                    }
 
 
                     rv.setAdapter(adapter);
                 }
 
             } else {
-                adapter.setList(list1);
+                adapter.setList(result.getResult().getData());
             }
         } else {
             T.show(getActivity(), result.getReason());
@@ -184,20 +168,20 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     }
 
-    public void showText() {
-        if (null == tv) return;
-        if (null == pb) return;
-        tv.setText("数据已加载完毕");
-        tv.setVisibility(View.VISIBLE);
-        pb.setVisibility(View.GONE);
-    }
-
-    public void showProgress() {
-        if (null == tv) return;
-        if (null == pb) return;
-        pb.setVisibility(View.VISIBLE);
-        tv.setVisibility(View.GONE);
-    }
+//    public void showText() {
+//        if (null == tv) return;
+//        if (null == pb) return;
+//        tv.setText("数据已加载完毕");
+//        tv.setVisibility(View.VISIBLE);
+//        pb.setVisibility(View.GONE);
+//    }
+//
+//    public void showProgress() {
+//        if (null == tv) return;
+//        if (null == pb) return;
+//        pb.setVisibility(View.VISIBLE);
+//        tv.setVisibility(View.GONE);
+//    }
 
 
     @Override

@@ -22,7 +22,7 @@
             android:layout_gravity="center|top"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="加载更多"
+            android:text="数据已加载完毕"
             android:textSize="16sp" />
 
         <ProgressBar
