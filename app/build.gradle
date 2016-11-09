@@ -32,6 +32,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //图片处理
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //数据抓取
+    compile 'org.jsoup:jsoup:1.10.1'
 
 
 }

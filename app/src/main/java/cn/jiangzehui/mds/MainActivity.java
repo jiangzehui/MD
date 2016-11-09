@@ -2,6 +2,7 @@ package cn.jiangzehui.mds;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,11 +24,13 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.jiangzehui.mds.fragment.Gif_Fragment;
 import cn.jiangzehui.mds.fragment.News_Fragment;
+import cn.jiangzehui.mds.model.Ip;
 import cn.jiangzehui.mds.util.T;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     @InjectView(R.id.toolbar)
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.pager)
     ViewPager pager;
     ArrayList<Fragment> list = new ArrayList<>();
-    String[][] str_type = new String[][]{{"头条", "top"}, {"社会", "shehui"}, {"国内", "guonei"}, {"国际", "guoji"}, {"娱乐", "yule"}, {"体育", "tiyu"}, {"军事", "junshi"}, {"科技", "keji"}, {"财经", "caijing"}, {"时尚", "shishang"}};
+    String[][] str_type = new String[][]{{"GIF", Ip.url_gif},{"头条", "top"}, {"社会", "shehui"}, {"国内", "guonei"}, {"国际", "guoji"}, {"娱乐", "yule"}, {"体育", "tiyu"}, {"军事", "junshi"}, {"科技", "keji"}, {"财经", "caijing"}, {"时尚", "shishang"}};
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @InjectView(R.id.nv)
@@ -48,9 +51,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        initView();
+        //初始化数据
         for (int i = 0; i < str_type.length; i++) {
-            list.add(News_Fragment.newInstance(str_type[i][1]));
+            if(i==0){
+                list.add(Gif_Fragment.newInstance(str_type[i][1]));
+            }else{
+                list.add(News_Fragment.newInstance(str_type[i][1]));
+            }
+
         }
+        //pager.setOffscreenPageLimit(2);//设置保持叶面
+        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+
+
+    }
+
+    /**
+     * 初始化各种控件
+     */
+    private void initView() {
+        tab.setupWithViewPager(pager);
+        tab.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle("MD");
@@ -60,41 +83,14 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);//显示菜单栏
 
         //设置Toolbar和DrawerLayout实现动画和联动
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
-        //pager.setOffscreenPageLimit(2);//设置保持叶面
-        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
-
-        tab.setupWithViewPager(pager);
-        tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-
-
-        nv.setNavigationItemSelectedListener(
-
-                new NavigationView.OnNavigationItemSelectedListener() {
-
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        drawerLayout.closeDrawers();
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_find:
-
-                                break;
-                        }
-
-
-                        return true;
-                    }
-                });
-
+        nv.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -117,6 +113,39 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        switch (menuItem.getItemId()) {
+            case R.id.nav_news:
+                if (!menuItem.isChecked()) {
+                    T.show(MainActivity.this, "1");
+                }
+
+                break;
+            case R.id.nav_video:
+                if (!menuItem.isChecked()) {
+                    T.show(MainActivity.this, "1");
+                }
+                break;
+            case R.id.nav_gif:
+
+                T.open(this, GifActivity.class);
+
+                break;
+            case R.id.nav_fuli:
+                if (!menuItem.isChecked()) {
+                    T.show(MainActivity.this, "1");
+                }
+                break;
+        }
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+
+
+        return true;
     }
 
 
@@ -145,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object) {//不销毁
 
         }
     }

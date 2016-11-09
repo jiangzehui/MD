@@ -1,5 +1,6 @@
-package cn.jiangzehui.mds.Retrofit;
+package cn.jiangzehui.mds.retrofit;
 
+import cn.jiangzehui.mds.model.Ip;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     private HttpService service;
     private static Api instances = new Api();
-    private String uri = "http://v.juhe.cn/toutiao/";
+
     private Converter.Factory factory = GsonConverterFactory.create();
 
 
@@ -22,7 +23,7 @@ public class Api {
 
 
     private Api() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(uri).addConverterFactory(factory).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Ip.uri_news).addConverterFactory(factory).build();
         service = retrofit.create(HttpService.class);
 
     }

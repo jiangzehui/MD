@@ -3,38 +3,39 @@
 
     <group>
         <item
-            android:id="@+id/nav_find"
+            android:id="@+id/nav_news"
             android:checkable="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="趣发现" />
+            android:checked="true"
+            android:icon="@drawable/ic_new"
+            android:title="新闻" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_video"
             android:checkable="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="" />
+            android:icon="@drawable/ic_video"
+            android:title="视频" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/nav_gif"
             android:checkable="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Friends" />
+            android:icon="@drawable/ic_png"
+            android:title="动图" />
         <item
-            android:id="@+id/nav_discussion"
+            android:id="@+id/nav_fuli"
             android:checkable="true"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Discussion" />
+            android:icon="@drawable/ic_love"
+            android:title="福利" />
     </group>
 
-    <item android:title="Sub items">
-        <menu>
-            <item
-                android:checkable="true"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Sub item 1" />
-            <item
-                android:checkable="true"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Sub item 2" />
-        </menu>
-    </item>
+    <!--<item android:title="Sub items">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:checkable="true"-->
+    <!--android:icon="@mipmap/ic_launcher"-->
+    <!--android:title="Sub item 1" />-->
+    <!--<item-->
+    <!--android:checkable="true"-->
+    <!--android:icon="@mipmap/ic_launcher"-->
+    <!--android:title="Sub item 2" />-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>

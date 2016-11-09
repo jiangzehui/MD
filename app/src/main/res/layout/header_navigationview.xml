@@ -14,21 +14,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
-        android:text="http://blog.csdn.net/lmj623565791" />
+        android:text="https://github.com/jiangzehui" />
 
     <TextView
         android:id="@+id/id_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/id_link"
-        android:text="Zhang Hongyang" />
+        android:text="Jiang ZeHui" />
 
     <ImageView
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_above="@id/id_username"
         android:layout_marginBottom="16dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/icon" />
 
 
 </RelativeLayout>

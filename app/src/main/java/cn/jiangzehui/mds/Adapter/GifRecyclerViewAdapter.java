@@ -1,43 +1,47 @@
-package cn.jiangzehui.mds.Adapter;
+package cn.jiangzehui.mds.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.jiangzehui.mds.R;
-import cn.jiangzehui.mds.Retrofit.HttpService;
+import cn.jiangzehui.mds.model.Gif;
+import cn.jiangzehui.mds.retrofit.HttpService;
 
 /**
  * Created by quxianglin on 16/11/5.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     LayoutInflater inflaters;
     Context context;
-    List<HttpService.Result.ResultBean.DataBean> list;
+    ArrayList<Gif> list;
     private OnItemClickLitener mOnItemClickLitener;
     private OnLoadListener mOnLoadListener;
     private boolean isFooterView = true;
     final int NOFOOT = 1;
     final int YESFOOT = 2;
     View footView;
+    boolean gif_auto_bool = true;
 
-    public RecyclerViewAdapter(Context context, List<HttpService.Result.ResultBean.DataBean> list) {
+    public GifRecyclerViewAdapter(Context context, ArrayList<Gif> list) {
         isFooterView = false;
         inflaters = LayoutInflater.from(context);
         this.list = list;
         this.context = context;
     }
 
-    public RecyclerViewAdapter(Context context, List<HttpService.Result.ResultBean.DataBean> list, View footView) {
+    public GifRecyclerViewAdapter(Context context, ArrayList<Gif> list, View footView) {
         isFooterView = true;
         inflaters = LayoutInflater.from(context);
         this.list = list;
@@ -45,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.context = context;
     }
 
-    public void setList(List<HttpService.Result.ResultBean.DataBean> list) {
+    public void setList(ArrayList<Gif> list) {
 
         this.list = list;
         notifyDataSetChanged();
@@ -55,10 +59,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.list.size();
     }
 
-    public void addList(List<HttpService.Result.ResultBean.DataBean> lists) {
+    public void addList(ArrayList<Gif> lists) {
         if (lists.size() > 0) {
-            for (HttpService.Result.ResultBean.DataBean dataBean : lists) {
-                this.list.add(dataBean);
+            for (Gif gif : lists) {
+                this.list.add(gif);
             }
             notifyDataSetChanged();
         }
@@ -103,7 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
             case NOFOOT:
-                holder = new MyHolder(inflaters.inflate(R.layout.item_recyclerview_news, parent, false));
+                holder = new MyHolder(inflaters.inflate(R.layout.item_recyclerview_gif, parent, false));
                 break;
         }
 
@@ -118,8 +122,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             MyHolder holder1 = (MyHolder) holder;
 
             holder1.setTitle(list.get(position).getTitle());
-            holder1.setDate(list.get(position).getDate());
-            holder1.setImg(list.get(position).getThumbnail_pic_s());
+
+            holder1.setImg(list.get(position).getUrl());
             if (mOnItemClickLitener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -140,13 +144,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     class MyHolder extends RecyclerView.ViewHolder {
-        TextView tv_title, tv_date;
+        TextView tv_title;
         ImageView iv;
 
         public MyHolder(View itemView) {
             super(itemView);
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
-            tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             iv = (ImageView) itemView.findViewById(R.id.iv);
         }
 
@@ -156,14 +159,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }
 
-        public void setDate(String date) {
-            if (null == tv_date) return;
-            tv_date.setText(date);
-        }
 
         public void setImg(String imgUrl) {
+
+
             if (null == iv) return;
-            Glide.with(context).load(imgUrl).centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(iv);
+            if (!imgUrl.contains("http")) {
+                imgUrl = "http://www.zbjuran.com"+imgUrl;
+                Log.i("imgUrl",imgUrl);
+            }
+            if (!gif_auto_bool) {
+                final boolean[] bool = {true};
+                Glide.with(context).load(imgUrl).asBitmap().into(iv);
+                final String finalImgUrl = imgUrl;
+                iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (bool[0]) {
+                            bool[0] = false;
+                            Glide.with(context).load(finalImgUrl).into(iv);
+                        }
+
+                    }
+                });
+            } else {
+                Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
+            }
+
         }
 
 

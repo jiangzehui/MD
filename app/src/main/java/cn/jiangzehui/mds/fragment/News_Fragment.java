@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import cn.jiangzehui.mds.Adapter.RecyclerViewAdapter;
+import cn.jiangzehui.mds.adapter.NewsRecyclerViewAdapter;
 import cn.jiangzehui.mds.R;
-import cn.jiangzehui.mds.Retrofit.Api;
-import cn.jiangzehui.mds.Retrofit.HttpService;
+import cn.jiangzehui.mds.retrofit.Api;
+import cn.jiangzehui.mds.retrofit.HttpService;
 import cn.jiangzehui.mds.WebActivity;
 import cn.jiangzehui.mds.util.T;
 import retrofit2.Call;
@@ -33,7 +33,7 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
     View view;
     @InjectView(R.id.rv)
     RecyclerView rv;
-    RecyclerViewAdapter adapter;
+    NewsRecyclerViewAdapter adapter;
     @InjectView(R.id.fresh)
     SwipeRefreshLayout fresh;
     View footView;
@@ -106,8 +106,8 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 footView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 tv = (TextView) footView.findViewById(R.id.tv);
                 pb = (ProgressBar) footView.findViewById(R.id.pb);
-                adapter = new RecyclerViewAdapter(getActivity(), result.getResult().getData(), footView);
-                adapter.setOnItemClickLitener(new RecyclerViewAdapter.OnItemClickLitener() {
+                adapter = new NewsRecyclerViewAdapter(getActivity(), result.getResult().getData(), footView);
+                adapter.setOnItemClickLitener(new NewsRecyclerViewAdapter.OnItemClickLitener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         T.open(getActivity(), WebActivity.class, "url", result.getResult().getData().get(position).getUrl());
@@ -115,44 +115,6 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 });
                 if (rv != null) {
                     rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-//                    if (rv.getLayoutManager() instanceof LinearLayoutManager) {
-//                        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) rv.getLayoutManager();
-//                        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                            @Override
-//                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                                super.onScrolled(recyclerView, dx, dy);
-//                                int totalItemCount = linearLayoutManager.getItemCount();
-//                                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-//                                if (lastVisibleItem > 0 && lastVisibleItem == totalItemCount - 1) {
-//                                    if(adapter.getListSize()>=list_total.size()){
-//                                        showText();
-//                                        return;
-//                                    }
-//                                    showProgress();
-//                                    new Thread() {
-//                                        @Override
-//                                        public void run() {
-//                                            try {
-//                                                Thread.sleep(2000);
-//                                                getActivity().runOnUiThread(new Runnable() {
-//                                                    @Override
-//                                                    public void run() {
-//                                                        adapter.addList(list2);
-//                                                        showText();
-//                                                    }
-//                                                });
-//
-//                                            } catch (InterruptedException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                        }
-//                                    }.start();
-//                                }
-//
-//                            }
-//                        });
-//                    }
 
 
                     rv.setAdapter(adapter);
@@ -167,21 +129,6 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
 
     }
-
-//    public void showText() {
-//        if (null == tv) return;
-//        if (null == pb) return;
-//        tv.setText("数据已加载完毕");
-//        tv.setVisibility(View.VISIBLE);
-//        pb.setVisibility(View.GONE);
-//    }
-//
-//    public void showProgress() {
-//        if (null == tv) return;
-//        if (null == pb) return;
-//        pb.setVisibility(View.VISIBLE);
-//        tv.setVisibility(View.GONE);
-//    }
 
 
     @Override

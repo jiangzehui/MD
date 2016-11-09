@@ -1,4 +1,4 @@
-package cn.jiangzehui.mds.Retrofit;
+package cn.jiangzehui.mds.retrofit;
 
 import java.util.List;
 
