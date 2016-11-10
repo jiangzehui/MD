@@ -1,5 +1,7 @@
 package cn.jiangzehui.mds.util;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,10 +18,46 @@ import cn.jiangzehui.mds.model.Gif;
  */
 public class JsoupUtil {
 
-    public static ArrayList<String> lists = new ArrayList<>();
+    public static ArrayList<String> list_dongtai = new ArrayList<>();
+    public static ArrayList<String> list_xiegif = new ArrayList<>();
+    public static ArrayList<String> list_gaoxiao = new ArrayList<>();
+
+    public static int getListSize(int type) {
+        switch (type) {
+            case 0:
+                return list_dongtai.size();
+
+            case 1:
+                return list_xiegif.size();
+            case 2:
+                return list_gaoxiao.size();
+
+            default:
+                return 0;
+
+        }
+    }
+
+    public static String getListItem(int position, int type) {
+        switch (type) {
+            case 0:
+                return list_dongtai.get(position);
+
+            case 1:
+                return list_xiegif.get(position);
+            case 2:
+                return list_gaoxiao.get(position);
+
+            default:
+                return "";
+
+        }
+    }
 
 
-    public static ArrayList<Gif> getGif(String urls) {
+    public static ArrayList<Gif> getGif(String urls, int type) {
+
+
         ArrayList<Gif> list = new ArrayList<>();
         Document doc = null;
         try {
@@ -30,6 +68,8 @@ public class JsoupUtil {
                 if (et != null) {
                     String title = et.getElementsByTag("b").text();
                     String url = es_item.get(i).select("img").first().attr("src");
+                    Log.i("jsoup", title);
+                    Log.i("jsoup", url);
                     list.add(new Gif(title, url));
 
                 }
@@ -41,13 +81,24 @@ public class JsoupUtil {
             for (int i = 0; i < es_page.size(); i++) {
                 Element et = es_page.get(i);
                 if (et != null) {
-                    lists.add(et.attr("value"));
+                    switch (type) {
+                        case 0:
+                            list_dongtai.add(et.attr("value"));
+                            break;
+                        case 1:
+                            list_xiegif.add(et.attr("value"));
+                            break;
+                        case 2:
+                            list_gaoxiao.add(et.attr("value"));
+                            break;
+                    }
+
 
                 }
 
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

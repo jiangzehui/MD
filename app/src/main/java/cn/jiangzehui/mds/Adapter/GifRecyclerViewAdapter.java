@@ -16,9 +16,11 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jiangzehui.mds.GifActivity;
 import cn.jiangzehui.mds.R;
 import cn.jiangzehui.mds.model.Gif;
 import cn.jiangzehui.mds.retrofit.HttpService;
+import cn.jiangzehui.mds.util.T;
 
 /**
  * Created by quxianglin on 16/11/5.
@@ -26,7 +28,7 @@ import cn.jiangzehui.mds.retrofit.HttpService;
 public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     LayoutInflater inflaters;
     Context context;
-    ArrayList<Gif> list;
+    public ArrayList<Gif> list;
     private OnItemClickLitener mOnItemClickLitener;
     private OnLoadListener mOnLoadListener;
     private boolean isFooterView = true;
@@ -125,7 +127,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             holder1.setTitle(list.get(position).getTitle());
 
-            holder1.setImg(list.get(position).getUrl());
+            holder1.setImg(list.get(position).getUrl(), position);
             if (mOnItemClickLitener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -163,7 +165,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
 
-        public void setImg(String imgUrl) {
+        public void setImg(String imgUrl, final int position) {
 
 
             if (null == iv) return;
@@ -171,34 +173,41 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 imgUrl = "http://www.zbjuran.com" + imgUrl;
                 Log.i("imgUrl", imgUrl);
             }
-            if (!gif_auto_bool) {
-                final boolean[] bool = {true};
-                final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
-                final ImageView target = imageViewWeakReference.get();
-                if (target != null) {
-                    Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(target);
-                } else {
-                    Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
-                }
-
-                final String finalImgUrl = imgUrl;
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (bool[0]) {
-                            bool[0] = false;
-                            if (target != null) {
-                                Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(target);
-                            } else {
-                                Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
-                            }
-                        }
-
+            if (imgUrl.contains("gif")) {
+                if (!gif_auto_bool) {
+                    final boolean[] bool = {true};
+                    final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
+                    final ImageView target = imageViewWeakReference.get();
+                    if (target != null) {
+                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(target);
+                    } else {
+                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
                     }
-                });
+
+                    final String finalImgUrl = imgUrl;
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (bool[0]) {
+                                bool[0] = false;
+                                if (target != null) {
+                                    Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(target);
+                                } else {
+                                    Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                                }
+                            } else {
+                                T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                            }
+
+                        }
+                    });
+                } else {
+                    Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                }
             } else {
-                Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+                Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
             }
+
 
         }
 

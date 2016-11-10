@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.jiangzehui.mds.GifActivity;
 import cn.jiangzehui.mds.R;
 import cn.jiangzehui.mds.WebActivity;
 import cn.jiangzehui.mds.adapter.GifRecyclerViewAdapter;
@@ -50,11 +51,13 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
     ProgressBar pb;
     private LinearLayoutManager mLinearLayoutManager;
     int index = 0;
+    int type;
 
-    public static Gif_Fragment newInstance(String url) {
+    public static Gif_Fragment newInstance(String url, int type) {
         Gif_Fragment gifFragment = new Gif_Fragment();
         Bundle bd = new Bundle();
         bd.putString("url", url);
+        bd.putInt("type", type);
         gifFragment.setArguments(bd);
         return gifFragment;
     }
@@ -71,6 +74,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         Bundle bundle = getArguments();
         url = bundle.getString("url");
+        type = bundle.getInt("type");
         getData(url);
         return view;
     }
@@ -81,7 +85,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void run() {
                 super.run();
-                list = JsoupUtil.getGif(url);
+                list = JsoupUtil.getGif(url, type);
                 if (list.size() > 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -110,12 +114,12 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
             tv = (TextView) footView.findViewById(R.id.tv);
             pb = (ProgressBar) footView.findViewById(R.id.pb);
             adapter = new GifRecyclerViewAdapter(getActivity(), list, footView);
-//                adapter.setOnItemClickLitener(new NewsRecyclerViewAdapter.OnItemClickLitener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        T.open(getActivity(), WebActivity.class, "url", result.getResult().getData().get(position).getUrl());
-//                    }
-//                });
+            adapter.setOnItemClickLitener(new GifRecyclerViewAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    T.open(getActivity(), GifActivity.class, "url", adapter.list.get(position).getUrl());
+                }
+            });
             if (rv != null) {
                 rv.setLayoutManager(new LinearLayoutManager(getActivity()));
                 rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -163,10 +167,10 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void run() {
                 super.run();
-                if (index < JsoupUtil.lists.size()) {
+                if (index < JsoupUtil.getListSize(type)) {
                     index++;
                     list = new ArrayList<Gif>();
-                    list = JsoupUtil.getGif(Ip.url_gif + JsoupUtil.lists.get(index));
+                    list = JsoupUtil.getGif(url + JsoupUtil.getListItem(index, type), type);
                     if (list.size() > 0) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -175,8 +179,9 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             }
                         });
                     }
-
-
+                } else {
+                    pb.setVisibility(View.GONE);
+                    tv.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -200,6 +205,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onPause() {
         super.onPause();
+        Glide.get(getActivity()).clearMemory();
 
     }
 }

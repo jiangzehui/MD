@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @InjectView(R.id.pager)
     ViewPager pager;
     ArrayList<Fragment> list = new ArrayList<>();
-    String[][] str_type = new String[][]{{"GIF", Ip.url_gif},{"头条", "top"}, {"社会", "shehui"}, {"国内", "guonei"}, {"国际", "guoji"}, {"娱乐", "yule"}, {"体育", "tiyu"}, {"军事", "junshi"}, {"科技", "keji"}, {"财经", "caijing"}, {"时尚", "shishang"}};
+    String[][] str_type = new String[][]{{"搞笑GIF", Ip.url_gif_dongtai, "gif"}, {"邪恶GIF", Ip.url_gif_xiegif, "gif"}, {"搞笑图片", Ip.url_gif_gaoxiao, "gif"}, {"头条", "top", "news"}, {"社会", "shehui", "news"}, {"国内", "guonei", "news"}, {"国际", "guoji", "news"}, {"娱乐", "yule", "news"}, {"体育", "tiyu", "news"}, {"军事", "junshi", "news"}, {"科技", "keji", "news"}, {"财经", "caijing", "news"}, {"时尚", "shishang", "news"}};
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @InjectView(R.id.nv)
@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initView();
         //初始化数据
         for (int i = 0; i < str_type.length; i++) {
-            if(i==0){
-                list.add(Gif_Fragment.newInstance(str_type[i][1]));
-            }else{
+            if (str_type[i][2].contains("gif")) {
+                list.add(Gif_Fragment.newInstance(str_type[i][1], i));
+            } else {
                 list.add(News_Fragment.newInstance(str_type[i][1]));
             }
 
