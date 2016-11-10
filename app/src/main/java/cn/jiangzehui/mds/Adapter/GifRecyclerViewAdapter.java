@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     final int NOFOOT = 1;
     final int YESFOOT = 2;
     View footView;
-    boolean gif_auto_bool = true;
+    boolean gif_auto_bool = false;
 
     public GifRecyclerViewAdapter(Context context, ArrayList<Gif> list) {
         isFooterView = false;
@@ -68,6 +69,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
     }
+
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
@@ -147,6 +149,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView tv_title;
         ImageView iv;
 
+
         public MyHolder(View itemView) {
             super(itemView);
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
@@ -165,25 +168,36 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             if (null == iv) return;
             if (!imgUrl.contains("http")) {
-                imgUrl = "http://www.zbjuran.com"+imgUrl;
-                Log.i("imgUrl",imgUrl);
+                imgUrl = "http://www.zbjuran.com" + imgUrl;
+                Log.i("imgUrl", imgUrl);
             }
             if (!gif_auto_bool) {
                 final boolean[] bool = {true};
-                Glide.with(context).load(imgUrl).asBitmap().into(iv);
+                final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
+                final ImageView target = imageViewWeakReference.get();
+                if (target != null) {
+                    Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(target);
+                } else {
+                    Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+                }
+
                 final String finalImgUrl = imgUrl;
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (bool[0]) {
                             bool[0] = false;
-                            Glide.with(context).load(finalImgUrl).into(iv);
+                            if (target != null) {
+                                Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(target);
+                            } else {
+                                Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+                            }
                         }
 
                     }
                 });
             } else {
-                Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
+                Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
             }
 
         }

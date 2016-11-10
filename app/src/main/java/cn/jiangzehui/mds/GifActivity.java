@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +25,7 @@ public class GifActivity extends AppCompatActivity {
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Glide.with(GifActivity.this).load("http://www.zbjuran.com/uploads/allimg/161029/2-161029162PGI.gif").into(iv);
+                Glide.with(GifActivity.this).load("http://www.zbjuran.com/uploads/allimg/161029/2-161029162PGI.gif").asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).dontAnimate().into(iv);
             }
         });
 

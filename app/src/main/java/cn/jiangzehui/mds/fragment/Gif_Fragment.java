@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -127,10 +129,20 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        Glide.get(getActivity()).clearMemory();
     }
 
     @Override
     public void onRefresh() {
+        Glide.get(getActivity()).clearMemory();
         getData(url);
+    }
+
+    
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 }
