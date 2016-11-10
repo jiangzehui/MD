@@ -43,10 +43,6 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
     ProgressBar pb;
     private LinearLayoutManager mLinearLayoutManager;
 
-    ArrayList<HttpService.Result.ResultBean.DataBean> list;
-    ArrayList<HttpService.Result.ResultBean.DataBean> list1;
-    ArrayList<HttpService.Result.ResultBean.DataBean> list2;
-
 
     public static News_Fragment newInstance(String type) {
         News_Fragment newsFragment = new News_Fragment();
@@ -106,24 +102,14 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
             fresh.setRefreshing(false);
         }
         if (result.getError_code() == 0) {
-            list = new ArrayList<>();
-            list1 = new ArrayList<>();
-            list2 = new ArrayList<>();
-            for (int i = 0; i < result.getResult().getData().size(); i++) {
-                list.add(result.getResult().getData().get(i));
-                if (i < 10) {
-                    list1.add(result.getResult().getData().get(i));
-                } else {
-                    list2.add(result.getResult().getData().get(i));
-                }
-            }
+
 
             if (adapter == null) {
                 footView = LayoutInflater.from(getActivity()).inflate(R.layout.item_footview, null);
                 footView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 tv = (TextView) footView.findViewById(R.id.tv);
                 pb = (ProgressBar) footView.findViewById(R.id.pb);
-                adapter = new NewsRecyclerViewAdapter(getActivity(), list1, footView);
+                adapter = new NewsRecyclerViewAdapter(getActivity(), result.getResult().getData(), footView);
                 adapter.setOnItemClickLitener(new NewsRecyclerViewAdapter.OnItemClickLitener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -177,9 +163,6 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
      * 加载更多
      */
     private void LoadMore() {
-        if (adapter.getListSize() < list.size()) {
-            adapter.setList(list2);
-        }
         Log.i(type, "LoadMore");
 
     }

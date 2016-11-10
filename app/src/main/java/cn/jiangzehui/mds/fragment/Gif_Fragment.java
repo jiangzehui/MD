@@ -23,6 +23,7 @@ import cn.jiangzehui.mds.WebActivity;
 import cn.jiangzehui.mds.adapter.GifRecyclerViewAdapter;
 import cn.jiangzehui.mds.adapter.NewsRecyclerViewAdapter;
 import cn.jiangzehui.mds.model.Gif;
+import cn.jiangzehui.mds.model.Ip;
 import cn.jiangzehui.mds.retrofit.Api;
 import cn.jiangzehui.mds.retrofit.HttpService;
 import cn.jiangzehui.mds.util.JsoupUtil;
@@ -47,6 +48,8 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
     View footView;
     TextView tv;
     ProgressBar pb;
+    private LinearLayoutManager mLinearLayoutManager;
+    int index = 0;
 
     public static Gif_Fragment newInstance(String url) {
         Gif_Fragment gifFragment = new Gif_Fragment();
@@ -65,7 +68,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         ButterKnife.inject(this, view);
         fresh.setColorSchemeResources(R.color.main, android.R.color.holo_orange_light, android.R.color.holo_red_light, android.R.color.holo_green_light);
         fresh.setOnRefreshListener(this);
-
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
         Bundle bundle = getArguments();
         url = bundle.getString("url");
         getData(url);
@@ -106,7 +109,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
             footView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             tv = (TextView) footView.findViewById(R.id.tv);
             pb = (ProgressBar) footView.findViewById(R.id.pb);
-            adapter = new GifRecyclerViewAdapter(getActivity(), list);
+            adapter = new GifRecyclerViewAdapter(getActivity(), list, footView);
 //                adapter.setOnItemClickLitener(new NewsRecyclerViewAdapter.OnItemClickLitener() {
 //                    @Override
 //                    public void onItemClick(View view, int position) {
@@ -115,7 +118,34 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
 //                });
             if (rv != null) {
                 rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+                rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    private boolean isScroll = false;
 
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
+                            int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                            int totalItemCount = mLinearLayoutManager.getItemCount();
+                            if (lastVisibleItem == (totalItemCount - 1)) {
+                                LoadMore();
+                                isScroll = false;
+                            }
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        if (dy > 0) {
+                            isScroll = true;
+                        } else {
+                            isScroll = false;
+                        }
+                    }
+                });
 
                 rv.setAdapter(adapter);
             }
@@ -123,6 +153,34 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         } else {
             adapter.setList(list);
         }
+    }
+
+    /**
+     * 加载更多
+     */
+    private void LoadMore() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (index < JsoupUtil.lists.size()) {
+                    index++;
+                    list = new ArrayList<Gif>();
+                    list = JsoupUtil.getGif(Ip.url_gif + JsoupUtil.lists.get(index));
+                    if (list.size() > 0) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.addList(list);
+                            }
+                        });
+                    }
+
+
+                }
+
+            }
+        }.start();
     }
 
     @Override
@@ -138,7 +196,6 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         getData(url);
     }
 
-    
 
     @Override
     public void onPause() {
