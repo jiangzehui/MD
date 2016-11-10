@@ -20,7 +20,7 @@ public class GifActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif);
-        ButterKnife.inject(this);
+         ButterKnife.inject(this);
         Glide.with(this).load("http://www.zbjuran.com/uploads/allimg/161029/2-161029162PGI.gif").asBitmap().into(iv);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
