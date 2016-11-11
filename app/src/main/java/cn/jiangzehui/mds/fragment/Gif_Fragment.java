@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +122,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             });
             if (rv != null) {
-                rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+                rv.setLayoutManager(mLinearLayoutManager);
                 rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     private boolean isScroll = false;
 
@@ -131,7 +132,11 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
                             int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
                             int totalItemCount = mLinearLayoutManager.getItemCount();
+                            Log.i("Gif_Fragment", totalItemCount + "");
+                            Log.i("Gif_Fragment", lastVisibleItem + "");
                             if (lastVisibleItem == (totalItemCount - 1)) {
+                                Log.i("Gif_Fragment", "LoadMore");
+
                                 LoadMore();
                                 isScroll = false;
                             }

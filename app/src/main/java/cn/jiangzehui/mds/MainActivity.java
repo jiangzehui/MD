@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     @InjectView(R.id.nv)
     NavigationView nv;
+    MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         }
+        adapter = new MyAdapter(getSupportFragmentManager());
         //pager.setOffscreenPageLimit(2);//设置保持叶面
-        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+        pager.setAdapter(adapter);
 
 
     }

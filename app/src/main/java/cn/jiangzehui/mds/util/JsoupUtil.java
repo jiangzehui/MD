@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import cn.jiangzehui.mds.model.Gif;
+import cn.jiangzehui.mds.model.Ip;
+import cn.jiangzehui.mds.model.Video;
 
 /**
  * Created by quxianglin on 16/11/9.
@@ -21,6 +23,8 @@ public class JsoupUtil {
     public static ArrayList<String> list_dongtai = new ArrayList<>();
     public static ArrayList<String> list_xiegif = new ArrayList<>();
     public static ArrayList<String> list_gaoxiao = new ArrayList<>();
+    public static ArrayList<String> list_video = new ArrayList<>();
+    public static final int TYPE_VIDEO = 4;
 
     public static int getListSize(int type) {
         switch (type) {
@@ -47,6 +51,9 @@ public class JsoupUtil {
                 return list_xiegif.get(position);
             case 2:
                 return list_gaoxiao.get(position);
+            case 3:
+                return list_video.get(position);
+
 
             default:
                 return "";
@@ -68,15 +75,12 @@ public class JsoupUtil {
                 if (et != null) {
                     String title = et.getElementsByTag("b").text();
                     String url = es_item.get(i).select("img").first().attr("src");
-                    Log.i("jsoup", title);
-                    Log.i("jsoup", url);
+                    Log.i("jsoup", title + "\t\t" + url + "\n");
                     list.add(new Gif(title, url));
 
                 }
 
             }
-
-
             Elements es_page = doc.getElementsByClass("page").first().getElementsByTag("select").first().getElementsByTag("option");
             for (int i = 0; i < es_page.size(); i++) {
                 Element et = es_page.get(i);
@@ -103,5 +107,45 @@ public class JsoupUtil {
         }
 
         return list;
+    }
+
+
+    public static ArrayList<Video> getVideo(String url) {
+        Document doc = null;//Video
+        ArrayList<Video> list = new ArrayList<>();
+        try {
+            doc = Jsoup.parse(new URL(url), 5000);
+            Elements es_page = doc.getElementsByClass("page").first().getElementsByTag("select").first().getElementsByTag("option");
+
+            for (int i = 0; i < es_page.size(); i++) {
+                Element et = es_page.get(i);
+                if (et != null) {
+                    list_video.add(et.attr("value"));
+                }
+
+            }
+
+            Elements es_item = doc.getElementsByClass("item");
+            for (int i = 0; i < es_item.size(); i++) {
+                Element et = es_item.get(i).getElementsByTag("h3").first();
+                if (et != null) {
+                    String title = et.getElementsByTag("b").text();
+                    String img = es_item.get(i).select("img").first().attr("src");
+                    String url2 = es_item.get(i).getElementsByClass("read").first().attr("href");
+                    Document docs = Jsoup.parse(new URL(Ip.url + url2), 5000);
+                    String url3 = docs.getElementsByTag("iframe").attr("src");
+                    Log.i("jsoup", title + "\t\t" + img + "\t\t" + url3 + "\n");
+                    list.add(new Video(title, img, url3));
+
+                }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+
     }
 }

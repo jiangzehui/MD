@@ -127,7 +127,10 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                             if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
                                 int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
                                 int totalItemCount = mLinearLayoutManager.getItemCount();
+                                Log.i("News_Fragment", totalItemCount + "");
+                                Log.i("News_Fragment", lastVisibleItem + "");
                                 if (lastVisibleItem == (totalItemCount - 1)) {
+                                    Log.i("Gif_Fragment", "LoadMore");
                                     LoadMore();
                                     isScroll = false;
                                 }
@@ -163,6 +166,8 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
      * 加载更多
      */
     private void LoadMore() {
+        tv.setVisibility(View.VISIBLE);
+        pb.setVisibility(View.GONE);
         Log.i(type, "LoadMore");
 
     }

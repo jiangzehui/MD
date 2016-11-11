@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -171,41 +175,112 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             if (null == iv) return;
             if (!imgUrl.contains("http")) {
                 imgUrl = "http://www.zbjuran.com" + imgUrl;
-                Log.i("imgUrl", imgUrl);
+                //Log.i("imgUrl", imgUrl);
             }
+            final WeakReference<ImageView> wr = new WeakReference<>(iv);
+            final ImageView wr_iv = wr.get();
             if (imgUrl.contains("gif")) {
-                if (!gif_auto_bool) {
+                if (!gif_auto_bool) {//是否自动加载git
                     final boolean[] bool = {true};
-                    final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
-                    final ImageView target = imageViewWeakReference.get();
-                    if (target != null) {
-                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(target);
+
+                    if (wr_iv != null) {
+                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+                        final String finalImgUrl = imgUrl;
+                        wr_iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (finalImgUrl.contains("gif")) {
+                                    if (bool[0]) {
+
+                                        Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).listener(new RequestListener<String, GifDrawable>() {
+                                            @Override
+                                            public boolean onException(Exception e, String model, Target<GifDrawable> target, boolean isFirstResource) {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public boolean onResourceReady(GifDrawable resource, String model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                                if(isFirstResource){
+                                                    Log.i("imgUrl", "onResourceReady");
+                                                    bool[0] = false;
+                                                }
+                                                return false;
+                                            }
+                                        }).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+
+                                    } else {
+                                        T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                    }
+                                } else {
+                                    T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                }
+
+
+                            }
+                        });
                     } else {
                         Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                        final String finalImgUrl = imgUrl;
+                        iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (finalImgUrl.contains("gif")) {
+                                    if (bool[0]) {
+                                        bool[0] = false;
+                                        Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).listener(new RequestListener<String, GifDrawable>() {
+                                            @Override
+                                            public boolean onException(Exception e, String model, Target<GifDrawable> target, boolean isFirstResource) {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public boolean onResourceReady(GifDrawable resource, String model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                                if(isFirstResource){
+                                                    Log.i("imgUrl", "onResourceReady");
+                                                    bool[0] = false;
+                                                }
+
+                                                return false;
+                                            }
+                                        }).placeholder(R.mipmap.ic_launcher).into(iv);
+                                    } else {
+                                        T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                    }
+                                } else {
+                                    T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                }
+
+
+                            }
+                        });
                     }
 
-                    final String finalImgUrl = imgUrl;
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (bool[0]) {
-                                bool[0] = false;
-                                if (target != null) {
-                                    Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(target);
-                                } else {
-                                    Glide.with(context).load(finalImgUrl).asGif().thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
-                                }
-                            } else {
-                                T.open(context, GifActivity.class, "url", list.get(position).getUrl());
-                            }
 
-                        }
-                    });
                 } else {
                     Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
                 }
             } else {
-                Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                if (wr_iv != null) {
+                    wr_iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                        }
+                    });
+                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+
+                } else {
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                        }
+                    });
+                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+
+                }
+
+
             }
 
 
