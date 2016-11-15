@@ -47,7 +47,7 @@ public class VideoActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Api.getInstance(Ip.url_video).getService().Get_video().enqueue(new Callback<Video>() {
+        Api.getInstance(Ip.url_video).getService().Get_video("neihan/stream/mix/v1/").enqueue(new Callback<Video>() {
             @Override
             public void onResponse(Call<Video> call, Response<Video> response) {
                 if(response.body()!=null){
