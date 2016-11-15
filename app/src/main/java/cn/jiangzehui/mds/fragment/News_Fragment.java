@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.jiangzehui.mds.adapter.NewsRecyclerViewAdapter;
 import cn.jiangzehui.mds.R;
+import cn.jiangzehui.mds.model.Ip;
 import cn.jiangzehui.mds.retrofit.Api;
 import cn.jiangzehui.mds.retrofit.HttpService;
 import cn.jiangzehui.mds.WebActivity;
@@ -75,7 +76,7 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
 
     private void getData(String type) {
-        Api.getInstance().getService().Get_news(type).enqueue(new Callback<HttpService.Result>() {
+        Api.getInstance(Ip.uri_news).getService().Get_news(type).enqueue(new Callback<HttpService.Result>() {
             @Override
             public void onResponse(Call<HttpService.Result> call, final Response<HttpService.Result> response) {
                 updateUi(response.body());

@@ -13,17 +13,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
-import cn.jiangzehui.mds.GifActivity;
+import cn.jiangzehui.mds.ShowPicActivity;
 import cn.jiangzehui.mds.R;
 import cn.jiangzehui.mds.model.Gif;
-import cn.jiangzehui.mds.retrofit.HttpService;
 import cn.jiangzehui.mds.util.T;
 
 /**
@@ -184,7 +181,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     final boolean[] bool = {true};
 
                     if (wr_iv != null) {
-                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(wr_iv);
                         final String finalImgUrl = imgUrl;
                         wr_iv.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -206,20 +203,20 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                                 }
                                                 return false;
                                             }
-                                        }).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+                                        }).placeholder(R.mipmap.ic_mr).into(wr_iv);
 
                                     } else {
-                                        T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                        T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                                     }
                                 } else {
-                                    T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                    T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                                 }
 
 
                             }
                         });
                     } else {
-                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                        Glide.with(context).load(imgUrl).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
                         final String finalImgUrl = imgUrl;
                         iv.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -242,12 +239,12 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                                                 return false;
                                             }
-                                        }).placeholder(R.mipmap.ic_launcher).into(iv);
+                                        }).placeholder(R.mipmap.ic_mr).into(iv);
                                     } else {
-                                        T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                        T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                                     }
                                 } else {
-                                    T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                                    T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                                 }
 
 
@@ -257,26 +254,26 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
                 } else {
-                    Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                    Glide.with(context).load(imgUrl).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
                 }
             } else {
                 if (wr_iv != null) {
                     wr_iv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                            T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                         }
                     });
-                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(wr_iv);
+                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(wr_iv);
 
                 } else {
                     iv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            T.open(context, GifActivity.class, "url", list.get(position).getUrl());
+                            T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
                         }
                     });
-                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_launcher).into(iv);
+                    Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
 
                 }
 

@@ -2,6 +2,7 @@ package cn.jiangzehui.mds.retrofit;
 
 import java.util.List;
 
+import cn.jiangzehui.mds.model.Video;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,6 +15,10 @@ public interface HttpService {
 
     @GET("index?key=9e05423f7ac6acf6d0dce3425c4ea9fe")
     Call<Result> Get_news(@Query("type") String type);
+
+
+    @GET("neihan/stream/mix/v1/")
+    Call<Video> Get_video();
 
     class Result {
 

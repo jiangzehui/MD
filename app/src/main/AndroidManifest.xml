@@ -18,7 +18,14 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".WebActivity" />
-        <activity android:name=".GifActivity"></activity>
+        <activity
+            android:name=".ShowPicActivity"
+            android:theme="@style/gif" />
+        <activity android:name=".GifActivity" />
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|layoutDirection"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

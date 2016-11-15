@@ -9,18 +9,19 @@
             android:icon="@drawable/ic_new"
             android:title="新闻" />
         <item
-            android:id="@+id/nav_video"
-            android:checkable="true"
-            android:icon="@drawable/ic_video"
-            android:title="视频" />
-        <item
             android:id="@+id/nav_gif"
-            android:checkable="true"
+            android:checkable="false"
             android:icon="@drawable/ic_png"
             android:title="动图" />
         <item
+            android:id="@+id/nav_video"
+            android:checkable="false"
+            android:icon="@drawable/ic_video"
+            android:title="视频" />
+
+        <item
             android:id="@+id/nav_fuli"
-            android:checkable="true"
+            android:checkable="false"
             android:icon="@drawable/ic_love"
             android:title="福利" />
     </group>

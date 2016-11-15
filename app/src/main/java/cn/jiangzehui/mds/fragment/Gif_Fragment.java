@@ -19,20 +19,12 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import cn.jiangzehui.mds.GifActivity;
+import cn.jiangzehui.mds.ShowPicActivity;
 import cn.jiangzehui.mds.R;
-import cn.jiangzehui.mds.WebActivity;
 import cn.jiangzehui.mds.adapter.GifRecyclerViewAdapter;
-import cn.jiangzehui.mds.adapter.NewsRecyclerViewAdapter;
 import cn.jiangzehui.mds.model.Gif;
-import cn.jiangzehui.mds.model.Ip;
-import cn.jiangzehui.mds.retrofit.Api;
-import cn.jiangzehui.mds.retrofit.HttpService;
 import cn.jiangzehui.mds.util.JsoupUtil;
 import cn.jiangzehui.mds.util.T;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by quxianglin on 16/11/9.
@@ -118,7 +110,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
             adapter.setOnItemClickLitener(new GifRecyclerViewAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    T.open(getActivity(), GifActivity.class, "url", adapter.list.get(position).getUrl());
+                    T.open(getActivity(), ShowPicActivity.class, "url", adapter.list.get(position).getUrl());
                 }
             });
             if (rv != null) {

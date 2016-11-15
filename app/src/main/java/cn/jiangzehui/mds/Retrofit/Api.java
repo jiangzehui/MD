@@ -11,19 +11,41 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Api {
     private HttpService service;
-    private static Api instances = new Api();
+    private static Api instances;
 
     private Converter.Factory factory = GsonConverterFactory.create();
+    private String url = Ip.url_video;
 
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public static Api getInstance() {
+        if (instances == null) {
+            instances = new Api();
+        }
+
+        return instances;
+    }
+
+    public static Api getInstance(String url) {
+        if (instances == null) {
+            instances = new Api(url);
+        }
 
         return instances;
     }
 
 
     private Api() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Ip.uri_news).addConverterFactory(factory).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(factory).build();
+        service = retrofit.create(HttpService.class);
+
+    }
+
+    private Api(String url) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(factory).build();
         service = retrofit.create(HttpService.class);
 
     }

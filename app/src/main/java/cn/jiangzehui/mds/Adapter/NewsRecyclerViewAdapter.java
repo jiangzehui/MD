@@ -162,7 +162,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public void setImg(String imgUrl) {
             if (null == iv) return;
-            Glide.with(context).load(imgUrl).centerCrop().placeholder(R.mipmap.ic_launcher).crossFade().into(iv);
+            Glide.with(context).load(imgUrl).centerCrop().placeholder(R.mipmap.ic_mr).crossFade().into(iv);
         }
 
 
