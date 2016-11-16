@@ -14,7 +14,7 @@ public class Api {
     private static Api instances;
 
     private Converter.Factory factory = GsonConverterFactory.create();
-    private String url = Ip.url_video;
+    private String url = Ip.uri_news;
 
 
     public void setUrl(String url) {
@@ -30,9 +30,9 @@ public class Api {
     }
 
     public static Api getInstance(String url) {
-        if (instances == null) {
-            instances = new Api(url);
-        }
+
+        instances = new Api(url);
+
 
         return instances;
     }
