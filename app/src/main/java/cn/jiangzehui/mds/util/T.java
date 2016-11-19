@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class T {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private static SimpleDateFormat sdfs = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static Intent intent = new Intent();
 
 
@@ -42,6 +43,11 @@ public class T {
     public static String getTime() {
 
         return sdf.format(new Date());
+    }
+
+    public static String getTime(long time) {
+
+        return sdfs.format(time);
     }
 
 

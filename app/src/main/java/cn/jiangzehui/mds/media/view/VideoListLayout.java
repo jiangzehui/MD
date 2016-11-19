@@ -51,7 +51,7 @@ public class VideoListLayout extends RelativeLayout {
 
     private FrameLayout fullScreen;
     //private VideoListData listData;
-    List<Video.DataBean.DataBeans> listData;
+    List<Video.Data.DataBean> listData;
     private RelativeLayout smallLayout;
     private ImageView close;
 
@@ -80,7 +80,7 @@ public class VideoListLayout extends RelativeLayout {
 
     }
 
-    public void setListData(List<Video.DataBean.DataBeans> listData) {
+    public void setListData(List<Video.Data.DataBean> listData) {
         this.listData = listData;
         if (listData.size() != 0) {
             adapter.refresh(listData);
@@ -199,7 +199,7 @@ public class VideoListLayout extends RelativeLayout {
                 FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.layout_video);
                 frameLayout.removeAllViews();
                 frameLayout.addView(videoItemView);
-                videoItemView.start(listData.get(position).getGroup().getShare_url());
+                videoItemView.start(listData.get(position).getGroup().getMp4_url());
                 lastPostion = position;
             }
         });

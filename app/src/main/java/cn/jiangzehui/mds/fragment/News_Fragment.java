@@ -76,7 +76,7 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
 
     private void getData(String type) {
-        Api.getInstance(Ip.uri_news).getService().Get_news(type).enqueue(new Callback<HttpService.Result>() {
+        Api.getInstance().getService().Get_news(type).enqueue(new Callback<HttpService.Result>() {
             @Override
             public void onResponse(Call<HttpService.Result> call, final Response<HttpService.Result> response) {
                 updateUi(response.body());

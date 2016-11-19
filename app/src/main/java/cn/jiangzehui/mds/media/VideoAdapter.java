@@ -20,6 +20,7 @@ import java.util.List;
 import cn.jiangzehui.mds.R;
 import cn.jiangzehui.mds.model.Ip;
 import cn.jiangzehui.mds.model.Video;
+import cn.jiangzehui.mds.util.T;
 
 /**
  * Author  wangchenchen
@@ -28,7 +29,7 @@ import cn.jiangzehui.mds.model.Video;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
     Context context;
 
-    private List<Video.DataBean.DataBeans> list;
+    private List<Video.Data.DataBean> list;
 
     public VideoAdapter(Context context) {
         list = new ArrayList<>();
@@ -54,7 +55,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return list.size();
     }
 
-    public void refresh(List<Video.DataBean.DataBeans> list) {
+    public void refresh(List<Video.Data.DataBean> list) {
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();
@@ -64,7 +65,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         private FrameLayout videoLayout;
         private int position;
         private RelativeLayout showView;
-        private TextView title, from;
+        private TextView title, from,type;
         private ImageView iv;
 
 
@@ -75,26 +76,32 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             iv = (ImageView) itemView.findViewById(R.id.image_bg);
             title = (TextView) itemView.findViewById(R.id.title);
             from = (TextView) itemView.findViewById(R.id.from);
+            type = (TextView) itemView.findViewById(R.id.type);
         }
 
         public void update(final int position) {
             this.position = position;
-            title.setText(list.get(position).getGroup().getText());
-//            if(list.get(position).getGroup().contains("http")){
-//                Glide.with(context).load(list.get(position).getImg()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
-//
-//            }else{
-//                Glide.with(context).load(Ip.url+list.get(position).getImg()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
-//
-//            }
-            showView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showView.setVisibility(View.GONE);
-                    if (click != null)
-                        click.onclick(position);
+            if (list.get(position).getGroup() != null) {
+                title.setText(list.get(position).getGroup().getText());
+                type.setText(list.get(position).getGroup().getCategory_name());
+                from.setText(list.get(position).getGroup().getPlay_count()+"次播放");
+                if (list.get(position).getGroup().getLarge_cover().getUrl_list().get(0).getUrl().contains("http")) {
+                    Glide.with(context).load(list.get(position).getGroup().getLarge_cover().getUrl_list().get(0).getUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+
+                } else {
+                    Glide.with(context).load(Ip.url + list.get(position).getGroup().getLarge_cover().getUrl_list().get(0).getUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(iv);
+
                 }
-            });
+                showView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showView.setVisibility(View.GONE);
+                        if (click != null)
+                            click.onclick(position);
+                    }
+                });
+            }
+
         }
     }
 

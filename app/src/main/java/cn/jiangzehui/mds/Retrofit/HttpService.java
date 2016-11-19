@@ -18,8 +18,8 @@ public interface HttpService {
     Call<Result> Get_news(@Query("type") String type);
 
 
-    @GET("{path}")
-    Call<Video> Get_video(@Path("path") String path);
+    @GET("neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=-104&message_cursor=-1")
+    Call<Video> Get_video();
 
     class Result {
 
