@@ -17,7 +17,7 @@ public class WebActivity extends AppCompatActivity {
         String url = getIntent().getStringExtra("url");
         WebSettings webSettings = webView.getSettings();
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        webView.loadUrl("http://www.51tietu.net/weitu/40560.html");
+        webView.loadUrl(url);
         webView.setOnKeyListener(new View.OnKeyListener() { // webview can
             // go back
             @Override
