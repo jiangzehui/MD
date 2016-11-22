@@ -13,9 +13,13 @@
     <style name="gif" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimaryDark">#000000</item>
+    </style>
 
 
-
+    <style name="logo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

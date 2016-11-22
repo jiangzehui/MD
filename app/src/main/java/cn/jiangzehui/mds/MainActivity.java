@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -107,6 +109,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         return true;
+    }
+
+
+    long newTime;
+
+    /**
+     * 监听返回键
+     */
+    @Override
+    public void onBackPressed() {
+
+        if (System.currentTimeMillis() - newTime > 2000) {
+            newTime = System.currentTimeMillis();
+            Snackbar snackbar =  Snackbar.make(drawerLayout, "再按一次返回键退出程序", Snackbar.LENGTH_SHORT);
+            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.show();
+            //Toast.makeText(this, "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+        }
     }
 
 

@@ -12,11 +12,17 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
-                T.open(LogoActivity.this,MainActivity.class);
-                finish();
+                try {
+                    Thread.sleep(1000);
+                    T.open(LogoActivity.this, MainActivity.class);
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         }.start();
     }
