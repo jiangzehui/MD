@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MDs</string>
+    <string name="app_name">练习APP</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

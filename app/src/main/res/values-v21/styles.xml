@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+                <!-- Customize your theme here. -->
+                <item name="colorPrimary">@color/colorPrimary</item>
+                <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+                <item name="colorAccent">@color/colorAccent</item>
+                <!-- 指定界面进入/退出动画效果 -->
+                <item name="android:windowEnterTransition">@transition/animation_zc</item>
+                <item name="android:windowExitTransition">@transition/animation_zc</item>
+
+
+        </style>
+</resources>

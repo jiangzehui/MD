@@ -17,8 +17,13 @@ public class LogoActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    T.open(LogoActivity.this, MainActivity.class);
-                    finish();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            T.open(LogoActivity.this, MainActivity.class);
+                            finish();
+                        }
+                    });
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

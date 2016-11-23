@@ -1,7 +1,10 @@
 package cn.jiangzehui.mds.util;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
@@ -22,15 +25,41 @@ public class T {
         context.startActivity(intent.setClass(context, classs));
     }
 
+    public static void open(Activity activity, Class<?> classs) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        } else {
+            activity.startActivity(intent.setClass(activity, classs));
+
+        }
+    }
+
     public static void open(Context context, Class<?> classs, String... value) {
         for (int i = 1; i <= value.length; i++) {
 
-            if(i%2==0){
-                intent.putExtra(value[i-2], value[i-1]);
+            if (i % 2 == 0) {
+                intent.putExtra(value[i - 2], value[i - 1]);
             }
 
         }
         context.startActivity(intent.setClass(context, classs));
+    }
+
+    public static void open(Activity activity, Class<?> classs, String... value) {
+        for (int i = 1; i <= value.length; i++) {
+
+            if (i % 2 == 0) {
+                intent.putExtra(value[i - 2], value[i - 1]);
+            }
+
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        } else {
+            activity.startActivity(intent.setClass(activity, classs));
+
+        }
+
     }
 
 
