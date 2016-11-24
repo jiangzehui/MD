@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
 
             case R.id.nav_video:
-                T.open(this, VideoActivity.class);
+                T.open(this, VideoActivity.class, true);
                 break;
             case R.id.nav_gif:
 
-                T.open(this, GifActivity.class);
+                T.open(this, GifActivity.class, true);
 
                 break;
             case R.id.nav_fuli:
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (System.currentTimeMillis() - newTime > 2000) {
             newTime = System.currentTimeMillis();
-            Snackbar snackbar =  Snackbar.make(drawerLayout, "再按一次返回键退出程序", Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(drawerLayout, "再按一次返回键退出程序", Snackbar.LENGTH_SHORT);
             snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             snackbar.show();
             //Toast.makeText(this, "再按一次返回键退出程序", Toast.LENGTH_SHORT).show();

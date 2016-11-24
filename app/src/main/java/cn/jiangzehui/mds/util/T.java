@@ -25,13 +25,19 @@ public class T {
         context.startActivity(intent.setClass(context, classs));
     }
 
-    public static void open(Activity activity, Class<?> classs) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
-        } else {
+    public static void open(Activity activity, Class<?> classs, boolean animate) {
+        if (animate) {
             activity.startActivity(intent.setClass(activity, classs));
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+            } else {
+                activity.startActivity(intent.setClass(activity, classs));
 
+            }
         }
+
+
     }
 
     public static void open(Context context, Class<?> classs, String... value) {
@@ -45,7 +51,7 @@ public class T {
         context.startActivity(intent.setClass(context, classs));
     }
 
-    public static void open(Activity activity, Class<?> classs, String... value) {
+    public static void open(Activity activity, Class<?> classs, boolean animate, String... value) {
         for (int i = 1; i <= value.length; i++) {
 
             if (i % 2 == 0) {
@@ -53,11 +59,14 @@ public class T {
             }
 
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        if (animate) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+            } else {
+                activity.startActivity(intent.setClass(activity, classs));
+            }
         } else {
             activity.startActivity(intent.setClass(activity, classs));
-
         }
 
     }

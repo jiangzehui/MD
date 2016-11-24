@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Users/quxianglin/GitHub/MDs 2/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="24.0.2"
-        sha1="fe7a1edd783ce6cb4d59d7d573e3f0a1d8af0dcc">
-        <dex dex="/Users/quxianglin/GitHub/MDs 2/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_e3c5072036e3912a9c043eff390f2bef383a7e00/classes.dex" />
-    </item>
-
-</items>
+<items version="2" />

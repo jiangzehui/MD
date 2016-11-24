@@ -2,18 +2,34 @@ package cn.jiangzehui.mds;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class WebActivity extends AppCompatActivity {
+
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
+    @InjectView(R.id.webView)
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        final WebView webView = (WebView) findViewById(R.id.webView);
+        ButterKnife.inject(this);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         String url = getIntent().getStringExtra("url");
         WebSettings webSettings = webView.getSettings();
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);

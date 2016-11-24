@@ -79,7 +79,12 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
         Api.getInstance().getService().Get_news(type).enqueue(new Callback<HttpService.Result>() {
             @Override
             public void onResponse(Call<HttpService.Result> call, final Response<HttpService.Result> response) {
-                updateUi(response.body());
+                if (response.body() != null) {
+                    updateUi(response.body());
+                } else {
+                    T.show(getActivity(), "没有获取到数据，请刷新重试");
+                }
+
             }
 
             @Override
@@ -114,7 +119,7 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 adapter.setOnItemClickLitener(new NewsRecyclerViewAdapter.OnItemClickLitener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        T.open(getActivity(), WebActivity.class, "url", result.getResult().getData().get(position).getUrl());
+                        T.open(getActivity(), WebActivity.class, true, "url", result.getResult().getData().get(position).getUrl());
                     }
                 });
                 if (rv != null) {
