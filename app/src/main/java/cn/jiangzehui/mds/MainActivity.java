@@ -120,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
+        if(drawerLayout.isDrawerOpen(nv)){
+            drawerLayout.closeDrawers();
+            return;
+        }
+
+
         if (System.currentTimeMillis() - newTime > 2000) {
             newTime = System.currentTimeMillis();
             Snackbar snackbar = Snackbar.make(drawerLayout, "再按一次返回键退出程序", Snackbar.LENGTH_SHORT);

@@ -26,16 +26,20 @@ public class T {
     }
 
     public static void open(Activity activity, Class<?> classs, boolean animate) {
-        if (animate) {
-            activity.startActivity(intent.setClass(activity, classs));
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
-            } else {
-                activity.startActivity(intent.setClass(activity, classs));
 
-            }
-        }
+        activity.startActivity(intent.setClass(activity, classs));
+
+
+//        if (!animate) {
+//            activity.startActivity(intent.setClass(activity, classs));
+//        } else {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+//            } else {
+//                activity.startActivity(intent.setClass(activity, classs));
+//
+//            }
+//        }
 
 
     }
@@ -59,15 +63,18 @@ public class T {
             }
 
         }
-        if (animate) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
-            } else {
-                activity.startActivity(intent.setClass(activity, classs));
-            }
-        } else {
-            activity.startActivity(intent.setClass(activity, classs));
-        }
+        activity.startActivity(intent.setClass(activity, classs));
+
+
+//        if (animate) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                activity.startActivity(intent.setClass(activity, classs), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+//            } else {
+//                activity.startActivity(intent.setClass(activity, classs));
+//            }
+//        } else {
+//            activity.startActivity(intent.setClass(activity, classs));
+//        }
 
     }
 

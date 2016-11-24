@@ -80,12 +80,15 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 super.run();
                 list = JsoupUtil.getGif(url, type);
                 if (list.size() > 0) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateUi();
-                        }
-                    });
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateUi();
+                            }
+                        });
+                    }
+
 
                 }
 
