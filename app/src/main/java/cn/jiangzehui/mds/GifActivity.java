@@ -41,7 +41,7 @@ public class GifActivity extends AppCompatActivity {
 
     private void init() {
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
