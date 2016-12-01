@@ -9,7 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <cn.jiangzehui.mds.view.LoadRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

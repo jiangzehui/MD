@@ -61,7 +61,13 @@ public class JsoupUtil {
         }
     }
 
-
+    /**
+     * 抓取网页动态图
+     *
+     * @param urls
+     * @param type
+     * @return
+     */
     public static ArrayList<Gif> getGif(String urls, int type) {
 
 
@@ -108,7 +114,6 @@ public class JsoupUtil {
 
         return list;
     }
-
 
 
 }

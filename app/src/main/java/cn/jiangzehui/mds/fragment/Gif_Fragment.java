@@ -25,15 +25,16 @@ import cn.jiangzehui.mds.adapter.GifRecyclerViewAdapter;
 import cn.jiangzehui.mds.model.Gif;
 import cn.jiangzehui.mds.util.JsoupUtil;
 import cn.jiangzehui.mds.util.T;
+import cn.jiangzehui.mds.view.LoadRecyclerView;
 
 /**
  * Created by quxianglin on 16/11/9.
  */
-public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoadRecyclerView.OnLoadingListener {
 
     View view;
     @InjectView(R.id.rv)
-    RecyclerView rv;
+    LoadRecyclerView rv;
     @InjectView(R.id.fresh)
     SwipeRefreshLayout fresh;
     String url;
@@ -42,7 +43,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
     View footView;
     TextView tv;
     ProgressBar pb;
-    private LinearLayoutManager mLinearLayoutManager;
+
     int index = 0;
     int type;
 
@@ -64,7 +65,7 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         ButterKnife.inject(this, view);
         fresh.setColorSchemeResources(R.color.main, android.R.color.holo_orange_light, android.R.color.holo_red_light, android.R.color.holo_green_light);
         fresh.setOnRefreshListener(this);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+
         Bundle bundle = getArguments();
         url = bundle.getString("url");
         type = bundle.getInt("type");
@@ -117,40 +118,8 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             });
             if (rv != null) {
-                rv.setLayoutManager(mLinearLayoutManager);
-                rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    private boolean isScroll = false;
-
-                    @Override
-                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE && isScroll) {
-                            int lastVisibleItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-                            int totalItemCount = mLinearLayoutManager.getItemCount();
-                            Log.i("Gif_Fragment", totalItemCount + "");
-                            Log.i("Gif_Fragment", lastVisibleItem + "");
-                            if (lastVisibleItem == (totalItemCount - 1)) {
-                                Log.i("Gif_Fragment", "LoadMore");
-
-                                LoadMore();
-                                isScroll = false;
-                            }
-                        }
-
-                    }
-
-
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        if (dy > 0) {
-                            isScroll = true;
-                        } else {
-                            isScroll = false;
-                        }
-                    }
-                });
-
+                rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+                rv.setOnLoadingListener(this);
                 rv.setAdapter(adapter);
             }
 
@@ -159,10 +128,23 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
     }
 
-    /**
-     * 加载更多
-     */
-    private void LoadMore() {
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+        Glide.get(getActivity()).clearMemory();
+    }
+
+    @Override
+    public void onRefresh() {
+        Glide.get(getActivity()).clearMemory();
+        getData(url);
+    }
+
+    @Override
+    public void onLoading() {
+        Log.i("giffragment", "onLoading");
         new Thread() {
             @Override
             public void run() {
@@ -188,19 +170,6 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }.start();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-        Glide.get(getActivity()).clearMemory();
-    }
-
-    @Override
-    public void onRefresh() {
-        Glide.get(getActivity()).clearMemory();
-        getData(url);
-    }
-
 
     @Override
     public void onPause() {
@@ -208,4 +177,6 @@ public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Glide.get(getActivity()).clearMemory();
 
     }
+
+
 }

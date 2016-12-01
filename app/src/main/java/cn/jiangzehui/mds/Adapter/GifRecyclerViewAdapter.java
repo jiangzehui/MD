@@ -31,7 +31,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     Context context;
     public ArrayList<Gif> list;
     private OnItemClickLitener mOnItemClickLitener;
-    private OnLoadListener mOnLoadListener;
+
     private boolean isFooterView = true;
     final int NOFOOT = 1;
     final int YESFOOT = 2;
@@ -79,9 +79,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
 
-    public void setOnLoadListener(OnLoadListener mOnLoadListener) {
-        this.mOnLoadListener = mOnLoadListener;
-    }
+
 
 
     public void setFooterView(boolean footerView) {
@@ -301,9 +299,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
 
-    public interface OnLoadListener {
-        void onLoad();
-    }
+
 
 
 }
