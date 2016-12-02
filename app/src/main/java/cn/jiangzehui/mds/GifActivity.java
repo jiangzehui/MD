@@ -48,7 +48,7 @@ public class GifActivity extends AppCompatActivity {
             }
         });
 
-        tab.setupWithViewPager(pager);
+         tab.setupWithViewPager(pager);
         tab.setTabMode(TabLayout.MODE_FIXED);
         //初始化数据
         for (int i = 0; i < str.length; i++) {
