@@ -83,6 +83,9 @@ public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     updateUi(response.body());
                 } else {
                     T.show(getActivity(), "没有获取到数据，请刷新重试");
+                    if (fresh != null) {
+                        fresh.setRefreshing(false);
+                    }
                 }
 
             }

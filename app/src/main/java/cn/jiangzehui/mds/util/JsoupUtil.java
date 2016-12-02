@@ -23,8 +23,7 @@ public class JsoupUtil {
     public static ArrayList<String> list_dongtai = new ArrayList<>();
     public static ArrayList<String> list_xiegif = new ArrayList<>();
     public static ArrayList<String> list_gaoxiao = new ArrayList<>();
-    public static ArrayList<String> list_video = new ArrayList<>();
-    public static final int TYPE_VIDEO = 4;
+
 
     public static int getListSize(int type) {
         switch (type) {
@@ -51,10 +50,6 @@ public class JsoupUtil {
                 return list_xiegif.get(position);
             case 2:
                 return list_gaoxiao.get(position);
-            case 3:
-                return list_video.get(position);
-
-
             default:
                 return "";
 

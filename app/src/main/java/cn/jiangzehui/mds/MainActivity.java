@@ -100,9 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 T.open(this, GifActivity.class, true);
 
                 break;
-            case R.id.nav_fuli:
 
-                break;
         }
 
         drawerLayout.closeDrawers();

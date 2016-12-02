@@ -1,6 +1,10 @@
 package cn.jiangzehui.mds.adapter;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,9 +81,6 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
-
-
 
 
     public void setFooterView(boolean footerView) {
@@ -195,7 +196,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                                             @Override
                                             public boolean onResourceReady(GifDrawable resource, String model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                                if(isFirstResource){
+                                                if (isFirstResource) {
                                                     Log.i("imgUrl", "onResourceReady");
                                                     bool[0] = false;
                                                 }
@@ -205,9 +206,11 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                                     } else {
                                         T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+
                                     }
                                 } else {
                                     T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+
                                 }
 
 
@@ -230,7 +233,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                                             @Override
                                             public boolean onResourceReady(GifDrawable resource, String model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                                if(isFirstResource){
+                                                if (isFirstResource) {
                                                     Log.i("imgUrl", "onResourceReady");
                                                     bool[0] = false;
                                                 }
@@ -243,6 +246,7 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                     }
                                 } else {
                                     T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+
                                 }
 
 
@@ -259,7 +263,15 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     wr_iv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Intent intent = new Intent(context, ShowPicActivity.class);
+                                intent.putExtra("url", list.get(position).getUrl());
+                                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, wr_iv, "shareTransition").toBundle());
+                            } else {
+                                T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+                            }
+
+
                         }
                     });
                     Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(wr_iv);
@@ -268,7 +280,14 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     iv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Intent intent = new Intent(context, ShowPicActivity.class);
+                                intent.putExtra("url", list.get(position).getUrl());
+                                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, iv, "shareTransition").toBundle());
+                            } else {
+                                T.open(context, ShowPicActivity.class, "url", list.get(position).getUrl());
+                            }
                         }
                     });
                     Glide.with(context).load(imgUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.mipmap.ic_mr).into(iv);
@@ -297,9 +316,6 @@ public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
-
-
-
 
 
 }

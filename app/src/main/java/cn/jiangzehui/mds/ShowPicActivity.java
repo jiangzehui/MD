@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +27,10 @@ public class ShowPicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 允许使用transitions
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
+
         setContentView(R.layout.activity_show_pic);
         ButterKnife.inject(this);
         String url = getIntent().getStringExtra("url");
@@ -47,7 +52,7 @@ public class ShowPicActivity extends AppCompatActivity {
         }
         if (imgUrl.contains("gif")) {
 
-            final boolean[] bool = {true};
+
             final WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
             final ImageView target = imageViewWeakReference.get();
             if (target != null) {
