@@ -1,4 +1,4 @@
-# MaterialDesignDemo
+# MD
 [![Travis](https://img.shields.io/badge/License-Apache2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)<br>
 此项目基于Retrotfit2.1+Material Design+ijkplayer开发的一个APP。<br>
 主要目的还是为了练习框架的使用。<br>
