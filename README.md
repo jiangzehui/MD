@@ -30,7 +30,8 @@ GIF
 
 
 #APK
-[apk下载](https://www.pgyer.com/lianxiapp)<br>
+[apk下载](https://www.pgyer.com/lianxiapp)<br>gif动图有福利哦~~哈哈<br>
+
 
 #用到的三方库
 
@@ -66,6 +67,7 @@ https://github.com/Bilibili/ijkplayer<br>
 2.开源一个自己去年写的基于Xmpp协议的即时通讯社交软件 (客户端+服务端)<br> https://github.com/jiangzehui/xmpp<br><br>
 
 #如果你觉得还不错，可以给个star，支持下，谢谢了！<br>
+
 #About me
 
 An android little developer in HeBei.<br>
