@@ -16,7 +16,7 @@ import cn.jiangzehui.mds.R;
 import cn.jiangzehui.mds.retrofit.HttpService;
 
 /**
- * Created by quxianglin on 16/11/5.
+ * Created by jiangzehui on 16/11/5.
  */
 public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     LayoutInflater inflaters;

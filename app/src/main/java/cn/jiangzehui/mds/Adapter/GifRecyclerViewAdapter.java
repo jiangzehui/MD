@@ -28,7 +28,7 @@ import cn.jiangzehui.mds.model.Gif;
 import cn.jiangzehui.mds.util.T;
 
 /**
- * Created by quxianglin on 16/11/5.
+ * Created by jiangzehui on 16/11/5.
  */
 public class GifRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     LayoutInflater inflaters;
