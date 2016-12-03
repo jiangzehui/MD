@@ -30,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by quxianglin on 16/11/5.
+ * Created by jiangzehui on 16/11/5.
  */
 public class News_Fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View view;

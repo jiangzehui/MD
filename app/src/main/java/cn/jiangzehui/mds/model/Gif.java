@@ -3,7 +3,7 @@ package cn.jiangzehui.mds.model;
 import java.util.ArrayList;
 
 /**
- * Created by quxianglin on 16/11/9.
+ * Created by jiangzehui on 16/11/9.
  */
 public class Gif {
     private String title;

@@ -1,7 +1,7 @@
 package cn.jiangzehui.mds.model;
 
 /**
- * Created by quxianglin on 16/11/9.
+ * Created by jiangzehui on 16/11/9.
  */
 public class Ip {
 

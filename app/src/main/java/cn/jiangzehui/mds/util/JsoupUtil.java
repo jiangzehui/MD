@@ -16,7 +16,7 @@ import cn.jiangzehui.mds.model.Ip;
 import cn.jiangzehui.mds.model.Video;
 
 /**
- * Created by quxianglin on 16/11/9.
+ * Created by jiangzehui on 16/11/9.
  */
 public class JsoupUtil {
 

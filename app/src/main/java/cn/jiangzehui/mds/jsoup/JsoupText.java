@@ -16,7 +16,7 @@ import cn.jiangzehui.mds.model.Video;
 import cn.jiangzehui.mds.util.JsoupUtil;
 
 /**
- * Created by quxianglin on 16/11/9.
+ * Created by jiangzehui on 16/11/9.
  */
 public class JsoupText {
 

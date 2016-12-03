@@ -28,7 +28,7 @@ import cn.jiangzehui.mds.util.T;
 import cn.jiangzehui.mds.view.LoadRecyclerView;
 
 /**
- * Created by quxianglin on 16/11/9.
+ * Created by jiangzehui on 16/11/9.
  */
 public class Gif_Fragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoadRecyclerView.OnLoadingListener {
 

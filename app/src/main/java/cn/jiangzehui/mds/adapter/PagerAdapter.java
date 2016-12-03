@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 /**
- * Created by quxianglin on 16/11/15.
+ * Created by jiangzehui on 16/11/15.
  */
 public class PagerAdapter extends FragmentPagerAdapter {
     ArrayList<Fragment> list;

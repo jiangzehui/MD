@@ -3,7 +3,7 @@ package cn.jiangzehui.mds.model;
 import java.util.List;
 
 /**
- * Created by quxianglin on 16/11/11.
+ * Created by jiangzehui on 16/11/11.
  */
 public class Video {
 
